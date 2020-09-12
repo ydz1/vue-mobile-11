@@ -1,7 +1,7 @@
 console.log("ok");
 import Vue from 'vue'
 import app from './App.vue'
-import { Header,Swipe, SwipeItem,Button} from 'mint-ui';
+import { Header,Swipe, SwipeItem,Button,Lazyload} from 'mint-ui';
 import './lib/mui/css/mui.css';
 import './lib/mui/css/icons-extra.css'
 import VueRouter from 'vue-router'
@@ -11,7 +11,7 @@ import moment from 'moment'
 Vue.filter("dateFormat",function (dataStr,pattern="YYYY-MM-DD hh:mm:ss") {
     return moment(dataStr).format(pattern)
 });
-
+Vue.use(Lazyload);
 Vue.use(VueRouter);
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
