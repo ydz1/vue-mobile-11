@@ -14,6 +14,19 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI)
 
+//缩略图插件
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview);
+// Vue.use(preview, {
+//     mainClass: 'pswp--minimal--dark',
+//     barsSize: {top: 0, bottom: 0},
+//     captionEl: false,
+//     fullscreenEl: false,
+//     shareEl: false,
+//     bgOpacity: 0.85,
+//     tapToClose: true,
+//     tapToToggleControls: false
+// })
 
 import './lib/mui/css/mui.css';
 import './lib/mui/css/icons-extra.css'

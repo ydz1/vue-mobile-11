@@ -8,7 +8,9 @@
         <hr>
         <div class="content" v-html="photoInfo.content"></div>
 <!--缩略图区-->
-
+        <div class="thumbs">
+            <vue-preview :slides="slide1" @close="handleClose"></vue-preview>
+        </div>
 <!--图片内容区-->
 
 <!--评论子组件区-->
@@ -21,19 +23,36 @@
         data(){
             return{
                 id:this.$route.params.id,
-                photoInfo:{}
+                photoInfo:{},
+                slide1:[],//记录缩略图
             }
         },
         created() {
             this.getPhotoInfo();
+            this.getSlide()
         },
         methods:{
+            getSlide(){
+               this.$http.get('http://www.liulongbin.top:3005/api/getthumimages/'+this.id).then(response=>{
+                   if(response.body.status===0){
+                       response.body.message.forEach(item=>{
+                           item.w=600;
+                           item.h=400;
+                           item.msrc=item.src;
+                       });
+                       this.slide1 = response.body.message;
+                   }
+               })
+            },
             getPhotoInfo(){
                 this.$http.get('http://www.liulongbin.top:3005/api/getimageInfo/'+this.id).then(response=>{
                     if(response.body.status===0){
                         this.photoInfo = response.body.message[0];
                     }
                 })
+            },
+            handleClose () {
+                console.log('close event')
             }
         },
         components:{
@@ -59,6 +78,21 @@
         .content{
             font-size:13px;
             line-height: 30px;
+        }
+        .thumbs {
+            /deep/ .my-gallery{   //deep深层作用选择器
+                display: flex;
+                flex-wrap:wrap;//默认换行
+                figure{
+                    width: 30%;
+                    margin: 5px;
+                    img{
+                        width: 100%;
+                        box-shadow: 0 0 8px #999;
+                        border-radius: 5px;
+                    }
+                }
+            }
         }
 
     }
