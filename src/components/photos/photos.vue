@@ -12,10 +12,14 @@
 
         </div>
 <!--        图片懒加载区域-->
-        <ul>
-            <li v-for="item in list">
+        <ul class="photoList">
+            <router-link v-for="item in list" :to="'/home/photoinfo/'+item.id" tag="li" :key="item.id">
                 <img v-lazy="item.img_url">
-            </li>
+                <div class="info">
+                    <h1 class="info-title">{{item.title}}</h1>
+                    <div class="info-body">{{item.zhaiyao}}</div>
+                </div>
+            </router-link>
         </ul>
     </div>
 </template>
@@ -57,9 +61,41 @@
 </script>
 <style lang="scss" scoped>
     * { touch-action: pan-y; }
-    img[lazy=loading] {
-        width: 40px;
-        height: 300px;
-        margin: auto;
+    .photoList{
+        list-style-type: none;
+        margin:0;
+        padding:10px;
+        padding-bottom: 0;
+        li{
+            margin-bottom: 10px;
+            text-align:center;
+            background-color: #ccc;
+            position: relative;
+            img{
+                width: 100%;
+                vertical-align: middle;
+                box-shadow: 0 0 9px #999;
+            }
+            img[lazy=loading] {
+                width: 40px;
+                height: 300px;
+                margin: auto;
+            }
+            .info{
+                color:white;
+                text-align: left;
+                position: absolute;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.4);
+                max-height: 84px;
+                .info-title{
+                    font-size:14px;
+                }
+                .info-body{
+                    font-size:13px;
+                }
+            }
+        }
     }
+
 </style>
