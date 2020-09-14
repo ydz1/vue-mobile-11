@@ -1,53 +1,60 @@
 <template>
     <div>
         <div class="good-list">
-            <div class="goods-item">
-                <img src="../../images/商品1.jpg" alt="">
-                <h1 class="title">十年老店 华为新品5G 畅享20plus 预定立减</h1>
+            <div class="goods-item" v-for="item in goodList" :key="item.img_url" @click="toGoodInfo(item.id)">
+                <img :src="item.img_url" alt="">
+                <h1 class="title">{{item.title}}</h1>
                 <div class="info">
                     <p class="price">
-                        <span class="new">￥1699</span>
-                        <span class="old">￥2000</span>
+                        <span class="new">￥{{item.sell_price}}</span>
+                        <span class="old">￥{{item.market_price}}}</span>
                     </p>
                     <p class="sell">
                         <span>热卖中</span>
-                        <span>剩60件</span>
-                    </p>
-                </div>
-            </div>
-            <div class="goods-item">
-                <img src="../../images/商品2.jpg" alt="">
-                <h1 class="title">朵唯时尚曲面水滴屏超薄智能手机学生价游戏 款式新颖 价格合理</h1>
-                <div class="info">
-                    <p class="price">
-                        <span class="new">￥1699</span>
-                        <span class="old">￥2000</span>
-                    </p>
-                    <p class="sell">
-                        <span>热卖中</span>
-                        <span>剩60件</span>
-                    </p>
-                </div>
-            </div>
-            <div class="goods-item">
-                <img src="../../images/商品1.jpg" alt="">
-                <h1 class="title">十年老店 华为新品5G 畅享20plus 预定立减</h1>
-                <div class="info">
-                    <p class="price">
-                        <span class="new">￥1699</span>
-                        <span class="old">￥2000</span>
-                    </p>
-                    <p class="sell">
-                        <span>热卖中</span>
-                        <span>剩60件</span>
+                        <span>剩{{item.stock_quantity}}件</span>
                     </p>
                 </div>
             </div>
         </div>
+
+        <mt-button type="danger" size="large" @click="getMore()">加载更多</mt-button>
     </div>
 </template>
 <script>
+export default {
+    data(){
+        return {
+            pageIndex:1,
+            goodList:[]
+        }
+    },
+    created() {
+        this.getGoodList()
+    },
+    methods:{
+        toGoodInfo(id){
+            //使用编程式导航
+            // 1.router.push('home')方法
+            // this.$router.push('/home/goodinfo/'+id);
+            // 2.router.push({ path: 'home' })
+            // this.$router.push({path:'/home/goodinfo/'+id});
+            // 3.router.push({ name: 'user', params: { userId: '123' }})
+            this.$router.push({name:'ydz',params:{id}})
 
+        },
+        getMore(){
+            this.pageIndex++;
+            this.getGoodList();
+        },
+        getGoodList(){
+            this.$http.get('http://www.liulongbin.top:3005/api/getgoods?pageindex='+this.pageIndex).then(response=>{
+                if(response.body.status===0){
+                    this.goodList = this.goodList.concat(response.body.message)
+                }
+            })
+        }
+    }
+}
 </script>
 <style lang="scss" scoped>
     .good-list{

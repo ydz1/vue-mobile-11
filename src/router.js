@@ -8,6 +8,7 @@ import newsinfo from './components/news/newsinfo.vue';
 import photos from './components/photos/photos.vue'
 import photoinfo from './components/photos/photoinfo.vue'
 import goodlist from './components/goods/goodlist.vue'
+import goodinfo from './components/goods/goodinfo.vue'
 
 var router = new VueRouter({
     routes:[
@@ -20,7 +21,8 @@ var router = new VueRouter({
         {path:'/home/newsinfo/:id',component:newsinfo},
         {path:'/home/photos',component:photos},
         {path:'/home/photoinfo/:id',component:photoinfo},
-        {path:'/home/goodlist',component:goodlist}
+        {path:'/home/goodlist',component:goodlist},
+        {path:'/home/goodinfo/:id',component:goodinfo,name:'ydz'}
     ],
     linkActiveClass:'mui-active'
 });
