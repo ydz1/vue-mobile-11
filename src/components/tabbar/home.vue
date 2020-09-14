@@ -1,12 +1,7 @@
 <template>
     <div>
 <!--        轮播图-->
-<!--        <mt-swipe :auto="4000">-->
-<!--            <mt-swipe-item v-for="item in lunbotulist" :key="item.id">-->
-<!--                <img :src="item.img">-->
-<!--            </mt-swipe-item>-->
-<!--        </mt-swipe>-->
-        <swiper :lunbotulist="lunbotulist"></swiper>
+        <swiper :lunbotulist="lunbotulist" :isfull="true"></swiper>
 
 <!--        六宫格-->
         <ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -63,24 +58,7 @@
 }
 </script>
 <style lang="scss" scoped>
-/*.mint-swipe{*/
-/*    height:200px;*/
-/*    .mint-swipe-item{*/
-/*        &:nth-child(1){*/
-/*            background-color: orangered;*/
-/*        }*/
-/*        &:nth-child(2){*/
-/*            background-color: greenyellow;*/
-/*        }*/
-/*        &:nth-child(3){*/
-/*            background-color:cyan;*/
-/*        }*/
-/*        img{*/
-/*            width: 100%;*/
-/*            height: 100%;*/
-/*        }*/
-/*    }*/
-/*}*/
+
 .mui-grid-view.mui-grid-9{
      background-color: #fff;
      border:none;
