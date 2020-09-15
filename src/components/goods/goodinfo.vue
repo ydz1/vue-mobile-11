@@ -1,5 +1,13 @@
 <template>
     <div class="goodinfo-container">
+        <transition
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+        >
+            <div class="ball" v-show="ballFlag" ref="ball"></div>
+        </transition>
+
 <!--        商品轮播图区域-->
         <div class="mui-card">
             <div class="mui-card-content">
@@ -18,16 +26,12 @@
                     </p>
                     <p>购买数量
                     <span>
-                        <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
-                            <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                            <input id="test" class="mui-input-numbox" type="number" value="1" />
-                            <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
-                        </div>
+                        <numberbox @numberCount="getNumberCount" :max="goodInfo.stock_quantity"></numberbox>
                     </span>
                     </p>
                     <p>
                         <mt-button type="primary" size="small">立即购买</mt-button>
-                        <mt-button type="danger" size="small">加入购物车</mt-button>
+                        <mt-button type="danger" size="small" @click="addToShopCar()">加入购物车</mt-button>
                     </p>
                 </div>
             </div>
@@ -52,13 +56,15 @@
 </template>
 <script>
     import swiper from '../subcomponents/swiper.vue'
-    import mui from '../../lib/mui/js/mui.js'
+    import numberbox from "../subcomponents/numberbox.vue";
 export default{
     data(){
         return{
             id:this.$route.params.id,
             lunBoTu:[],
-            goodInfo:{}
+            goodInfo:{},
+            ballFlag:false,
+            number:1
         }
     },
     created(){
@@ -88,13 +94,34 @@ export default{
         },
         goodComment(){
             this.$router.push({name:'goodComment',param:{id:this.id}})
+        },
+        addToShopCar(){
+            this.ballFlag=!this.ballFlag
+        },
+        beforeEnter:function(el){
+            el.style.transform="translate(0,0)";
+        },
+        enter:function(el,done){
+            el.offsetHeight;
+            const ballPosition = this.$refs.ball.getBoundingClientRect();
+            const badgePosition = document.getElementById("badge").getBoundingClientRect();
+            const xDistance = badgePosition.left-ballPosition.left;
+            const yDistance = badgePosition.top-ballPosition.top;
+            el.style.transform=`translate(${xDistance}px,${yDistance}px)`;
+            el.style.transition="all 1s cubic-bezier(0.42,0,1,1)";
+            done();
+        },
+        afterEnter:function(){
+            this.ballFlag=!this.ballFlag;
+        },
+        getNumberCount(count){
+            this.number=count;
+            // console.log("子组件传给父组件的值为"+this.number)
         }
     },
-    mounted(){
-        mui(".mui-numbox").numbox()
-    },
     components:{
-        'swiper':swiper
+        'swiper':swiper,
+        "numberbox":numberbox
     }
 }
 </script>
@@ -102,6 +129,16 @@ export default{
     .goodinfo-container{
         overflow:hidden;
         background-color: #eee;
+        .ball{
+            width: 15px;
+            height: 15px;
+            background-color:red;
+            border-radius:50%;
+            position:absolute;
+            z-index:999;
+            top:410px;
+            left:138px;
+        }
         .now_price{
             font-weight:bold;
             color:red;
