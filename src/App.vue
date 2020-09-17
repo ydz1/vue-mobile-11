@@ -1,7 +1,11 @@
 <template>
 <div class="app-container">
 <!--    header部分-->
-    <mt-header fixed title="vue移动端项目"></mt-header>
+    <mt-header fixed title="vue移动端项目">
+        <span slot="left" @click="goBack" v-show="flag">
+            <mt-button icon="back">back</mt-button>
+        </span>
+    </mt-header>
 
 <!--router控制部分-->
     <transition>
@@ -18,7 +22,7 @@
             <span class="mui-tab-label">会员</span>
         </router-link>
         <router-link class="mui-tab-item1" to="/shopcar">
-            <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" id="badge">0</span></span>
+            <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" id="badge">{{$store.getters.getCount}}</span></span>
             <span class="mui-tab-label">购物车</span>
         </router-link>
         <router-link class="mui-tab-item1" to="search">
@@ -29,7 +33,32 @@
 </div>
 </template>
 <script>
+    export default {
+        data(){
+            return{
+                flag:false
+            }
+        },
+        methods:{
+            goBack(){
+                this.$router.go(-1)
+            }
+        },
+        created() {
+            this.flag = this.$route.path==='/home'?false:true;
+        },
+        watch:{
+            "$route.path":function (newValue) {
+                if(newValue==='/home'){
+                    this.flag=false;
+                }
+                else{
+                    this.flag=true;
+                }
 
+            }
+        }
+    }
 </script>
 <style scoped lang="scss">
     .mint-header{

@@ -96,7 +96,14 @@ export default{
             this.$router.push({name:'goodComment',param:{id:this.id}})
         },
         addToShopCar(){
-            this.ballFlag=!this.ballFlag
+            this.ballFlag=!this.ballFlag;
+            var goods = {
+                id:this.id,
+                count:this.number,
+                price:this.goodInfo.sell_price,
+                selected:true
+            };
+            this.$store.commit('addToCar',goods)
         },
         beforeEnter:function(el){
             el.style.transform="translate(0,0)";
